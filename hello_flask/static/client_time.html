@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html>
+    
     <head>
-        <!-- head definitions go here -->
-	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="css_client_time.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     </head>
-    <body>
-	    <h1 id="mytime"></h1>
-	<script>
-		setInterval( function(){ $('#mytime').html( "Time is " + new Date());}, 500);
-	</script>
+
+    <header class="main-header">
+
+        <h1>Ghost Kitty &hearts;</h1>
+    </header>
+    
+    <body class="body" style="background-color:rgb(209, 181, 203); text-align:center">
+        
+        
+    <script type = "text/javascript">
+        function pic1()
+        {   
+            document.getElementById("img").src = "https://m.media-amazon.com/images/I/51EnK5QCWmL._AC_UL1000_.jpg";
+        }
+        function pic2()
+        {
+            document.getElementById("img").src ="https://image.spreadshirtmedia.com/image-server/v1/mp/compositions/T127A1MPA215PT21X9Y7D1012822649S10/views/1,width=550,height=550,appearanceId=1,backgroundColor=FFFFFF,noPt=true/halloween-cute-cat-ghost-shirt-nice-gift-for-fan-small-buttons.jpg";
+        } 
+
+        <!--Server time-->
+          setInterval( function(){ $('#mytime').html( "Time is " + new Date());}, 500);
+    </script>
+
+
+        <img class="pictures" width = "250px" src = "" id = "img"/> 
+         <br>
+        <input type="button" value="Click Me!" onclick="pic1()"/> 
+        <input type="button" value="Click Me Next!" onclick="pic2()"/>
+
+    <hr>
+    <p id="mytime"></p>
+   
+    
     </body>
 </html>
