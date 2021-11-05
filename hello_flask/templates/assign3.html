@@ -8,13 +8,11 @@
 	<script>
 		function check_form(){
 			alert("Welcome back " + $('#fname').val());
-			
-
 			$('#login').hide();
 			$('#books').show();
 			
 			$('#cars').append('<option value="volvo">Thank you Taco</option>')
-
+		
 
 			return false;
 
@@ -29,21 +27,19 @@
 				function(data, textStatus) {
 				console.log(data);
 				}, "json");
-		alert("Account Created!");
-
-	return;}
-	
+		if("{{ flash_message }}" == "False")
+		{
+		alert("we got a falsyyyy");
+		}
+	return check_form();}
 
 
 	</script>
             <div id="login">
 	      	<!form action="/hellodb" method="post" >
-  			<label for="fname">First name:</label><br>
   			<input type="text" id="fname" name="fname" value="John"><br>
-  			<label for="lname">Last name:</label><br>
   			<input type="password" id="lname" name="lname" value="Doe"><br><br>
   			<input type="submit" value="Create" onclick=" return create();">
-			<input type="submit" value="Sign-in" onclick=" return check_form();">
 
 		<!/form>
 	    </div>
@@ -54,6 +50,11 @@
 
   		    </select>
 	    </div>
-
+	
+	    <div id="error" style="display:none">
+			
+			
+		
+	    </div>
     </body>
 </html>

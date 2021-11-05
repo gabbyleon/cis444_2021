@@ -2,9 +2,124 @@
 <html>
     <head>
         <!-- head definitions go here -->
+	<link rel="stylesheet" href="css441.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	
     </head>
-    <body>
-	    <h1>You Said!</h1>
-	    <h2>{{input_from_browser}}</h2>
+    <body class="body" style="background-color:rgb(185, 185, 185); text-align:center"> 
+<script>
+	function fail()
+	    {        alert("Incorrect Password ");
+	    }
+   function auth()
+	{ $.post("/account", { "username":$('#fname').val(), "password":$('#lname').val()},
+                function(data, textStatus) {
+			 sessionStorage.setItem('JWT', data.jwt);
+			if(data.pass== "pass")
+				return books(data);
+			else
+			        return fail();
+                               }, "json");
+	}                
+     function val()
+	{
+		              $(document).ready(function(){
+                   $.getJSON( "/account" , function( check ) {
+                                if (check.pass == "pass")
+                                   return books();
+                                if(check.pass == "fail")
+                                    alert("Incorrect Password "); });});
+	}
+     function books(data)
+	      {     $('#login').hide();
+                    $('#books').show();					
+		    $('#booknames').append('<option value="volvo">Book Options</option>')
+                  	  for(var i = 0; i < data.booklist.length; i++)
+		    {$('#booknames').append('<option value="'+data.booklist[i]+'">'+data.booklist[i]+' - $'+data.price[i]+' </option>') }
+	      }
+    function selectBook()
+	     {  var selectedBook = document.getElementById("booknames").value;
+		     $('#snowDetails').hide();
+		     $('#cliffDetails').hide();
+                     $('#peterDetails').hide();
+                     $('#pinoDetails').hide();
+
+		if (selectedBook == "Clifford"){
+                        $('#cliffDetails').show(); 
+		}
+		if (selectedBook == "Snow White"){
+                        $('#snowDetails').show();}
+		if (selectedBook == "Peter Pan"){
+                        $('#peterDetails').show();
+                }
+                if (selectedBook == "Pinocchio"){
+			$('#pinoDetails').show();}
+	     }
+    function create()
+              { $.post("/hellodb", { "username":$('#fname').val(), "password":$('#lname').val()},
+                function(data, textStatus) {
+			if (data == false)
+		        	{alert("Sorry that username has already been created!"); }
+			if (data == true){
+				alert("Your account has been created. Try signing in!");}
+		}, "json");
+		 return;
+	      } 
+   function purchase()
+	{       console.log("Purchasing");
+		console.log($('#booknames').val());
+		$.post("/purchaseBook", { "bookname":$('#booknames').val(), "sessionJWT" : sessionStorage.getItem('JWT')   },
+                function(data, textStatus) {
+			alert("Your book has been added");
+		}, "json");
+	}
+   function complete()
+       {    	     $('#snowDetails').hide();
+                     $('#cliffDetails').hide();
+                     $('#peterDetails').hide();
+                     $('#pinoDetails').hide();
+		      $('#books').hide();
+
+	        console.log("Complete!");
+	        $.post("/completeOrder", {  "sessionJWT" : sessionStorage.getItem('JWT') },
+                function(data, textStatus) {
+                                console.log(data);
+			     document.getElementById("thank").innerHTML = "Order Confirmation:";
+		for(var i = 0; i < data.order.length; i++)   
+			{	document.getElementById("confirmation").innerHTML += data.order[i] + ", " ;}
+                }, "json");
+       }
+</script>
+       <h2 id ="thank"> </h2>
+<p id = "confirmation"> </p>
+       <div id = "login">
+	     <h1> Login </h1>
+	     <label for="fname">Username:</label><br>
+	     <input type="text" id="fname" name="fname" value="John"><br>
+	     <label for="lname">Password:</label><br>
+             <input type="password" id="lname" name="lname" value="Doe"><br><br>
+             <input type="submit" value="Create" onclick=" return create();">
+	     <input type="submit" value="Login" onclick=" return auth();">
+	</div>
+	<div id = "books" style="display:none">
+	    <header class="main-header">
+		    <h1>Let's buy books</h1> </header>
+	    <select id="booknames" onchange="selectBook();"> </select>
+            <input type="submit" value="Purchase" onclick =" return purchase();">
+            <input type="submit" value="Complete Order" onclick =" return complete();">
+        </div>
+	<div id = "snowDetails" name="bookPurchased" value = "Snow White"  style="display:none">
+		<img class="pictures" width="400px" src = " https://kdn.scdn1.secure.raxcdn.com/image/cache/catalog/products/in-the-book/personalized-book-itb-timeless-disneys-snow-white-500x500.png">
+	</div>
+       <div id = "cliffDetails"  style="display:none">
+                <img class="pictures" width="400px" src = "https://images-na.ssl-images-amazon.com/images/I/61YtY51MWLL.jpg ">
+        </div>
+        <div id = "peterDetails"  style="display:none">
+                <img class="pictures" width="400px" src = "https://images-na.ssl-images-amazon.com/images/I/5179R9PJEYL.jpg ">
+        </div>
+        <div id = "pinoDetails"  style="display:none">
+                <img class="pictures" width="400px" src = "https://kdn.scdn1.secure.raxcdn.com/image/cache/catalog/products/in-the-book/personalized-book-itb-timeless-disneys-pinocchio-500x500.png ">
+        </div>
+
     </body>
 </html>

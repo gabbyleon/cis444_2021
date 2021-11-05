@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+    </head>
+    <body style="color:red;">
+
+        <div style="color:blue">
+            <div id="divg">
+                Hello
+            </div>
+
+            <div id="mydiv" style="color:pink">	
+            </div>
+	    <div id = "login">
+             <input type="text" id="fname" name="fname" value="John"><br>
+             <input type="password" id="lname" name="lname" value="Doe"><br><br>
+              <input type="submit" value="Login" onclick=" return signin();">
+            </div>
+
+        </div>
+
+        <h2>thisss text</h2>
+    
+        <script> 
+		$(document).ready(function(){
+			$.getJSON( "/s5",  { "username":"dad", "password":"mom"} ,  function( jsonfile ) {
+			//	$('#mydiv').html(jsonfile.password); });
+				return test(jsonfile.password);});
+			});
+		
+		function test(a)
+		{ 
+			alert(a);
+		}
+        </script>
+
+    </body>
+
+</html>
+
