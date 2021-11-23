@@ -1,0 +1,4 @@
+Requirement already satisfied: bcrypt in /home/ubuntu/anaconda3/lib/python3.8/site-packages (3.2.0)
+Requirement already satisfied: cffi>=1.1 in /home/ubuntu/anaconda3/lib/python3.8/site-packages (from bcrypt) (1.14.5)
+Requirement already satisfied: six>=1.4.1 in /home/ubuntu/anaconda3/lib/python3.8/site-packages (from bcrypt) (1.15.0)
+Requirement already satisfied: pycparser in /home/ubuntu/anaconda3/lib/python3.8/site-packages (from cffi>=1.1->bcrypt) (2.20)

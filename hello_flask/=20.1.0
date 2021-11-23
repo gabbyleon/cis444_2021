@@ -1,0 +1,2 @@
+Requirement already satisfied: gunicorn in /home/ubuntu/anaconda3/lib/python3.8/site-packages (20.1.0)
+Requirement already satisfied: setuptools>=3.0 in /home/ubuntu/anaconda3/lib/python3.8/site-packages (from gunicorn) (52.0.0.post20210125)
