@@ -39,6 +39,13 @@ if __name__ == "__main__":
         i+= 1
     print(result[0])
     print(len(result))
+    print("---------")
+    cur.execute("SELECT * FROM userspictures")
+    result = cur.fetchall()
+    for row in result:
+        print(row)
+    print("---------")
+
 
 
    # cur.execute("select * from users")

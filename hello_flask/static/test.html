@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+                <link rel="stylesheet" href="style.css">
+                <meta name="viewport" content="width=device-width">
+	</head>
+	<body>
+		<body>
+    <div class="main">
+      <br><br>
+      <h1>Lets take a picture</h1>
+      <div class="camera">
+        <video id="video">Video stream not available.</video>
+        <br>
+        <button id="startbutton">Take photo</button>
+
+      </div>
+      <canvas id="canvas">
+      </canvas>
+            <img id="photo"  alt="">
+                 <img id="photo3" alt="">
+                <img id="photo2" alt=""> 
+                <canvas id="capture" width="320" height="240"></canvas>
+		<br>
+		<input type="file" id = "file">
+		<br>
+                <h3> Uploaded Picture: </h3>
+		<img src = "" id = "img" height="320"> 
+		<!--img src = "" id = "show" width="320"-->
+		<br>
+		<h3> Your saved images: </h3>
+		<div id = "slide" height="320"> </div> 
+		<p id="url"></p>
+		<input type="submit" value="Display" onclick=" return displaypictures();">
+	<script>
+		const file = document.getElementById("file")
+		const img = document.getElementById("img")
+		//const show = document.getElementById("show")
+		const url = document.getElementById("url")
+                var datas;
+		file.addEventListener("change",ev=>{
+			const formdata = new FormData()
+			formdata.append("image", ev.target.files[0])
+			fetch("https://api.imgur.com/3/image/",{
+			method: "post",
+			headers: {Authorization: "Client-ID 5647fe43738f75e"},
+				body:formdata}).then(data=>data.json()).then(data=>{
+				img.src=data.data.link
+				url.innerTEXT=data.data.link
+				datas = data.data.link
+				console.log(datas);
+                        $.post("/insertpic", {"url": datas },
+                        function(){}, "json");
+
+				})
+		})
+		function displaypictures()
+		{       
+			$.post("/getpics", {"user": 121},
+				function(data, textStatus){
+					console.log("we back");
+				       	//       show.src = data.link[1]
+			
+					for(var i=0; i<data.link.length; i++)
+					  {
+                                                  var img = document.createElement('img');
+						  img.src = data.link[i]
+						  img.style.width = "320px";
+                                                  document.getElementById('slide').appendChild(img);
+					  }
+				}, "json");
+  		          
+		}
+         
+ (function() {
+
+  var width = 320;   
+  var height = 0;    
+
+
+  var streaming = false;
+
+  var video = null;
+  var canvas = null;
+  var photo = null;
+  var startbutton = null;
+  const group = [];
+
+  
+
+  function startup() {
+    video = document.getElementById('video');
+    canvas = document.getElementById('canvas');
+    photo = document.getElementById('photo');
+    startbutton = document.getElementById('startbutton');
+
+    
+
+    navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    .then(function(stream) {
+      video.srcObject = stream;
+      video.play();
+    })
+    .catch(function(err) {
+      console.log("An error occurred: " + err);
+    });
+
+    video.addEventListener('canplay', function(ev){
+      if (!streaming) {
+        height = video.videoHeight / (video.videoWidth/width);
+      
+      
+        video.setAttribute('width', width);
+        video.setAttribute('height', height);
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        streaming = true;
+      }
+    }, false); 
+
+    startbutton.addEventListener('click', function(ev){
+      takepicture();
+      ev.preventDefault();
+    }, false);
+    
+    //clearphoto();
+  }
+
+
+  function clearphoto() {
+    var context = canvas.getContext('2d');
+    context.fillStyle = "#AAA";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    var data = canvas.toDataURL('image/jpeg', 1.0);
+    photo.setAttribute('src', data);
+  }
+  
+
+  function takepicture() {
+    var context = canvas.getContext('2d');
+    if (width && height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(video, 0, 0, width, height);
+    
+      var data = canvas.toDataURL('image/jpeg', 1.0);
+      photo.setAttribute('src', data);
+      photo2.setAttribute('src', data);
+      photo3.setAttribute('src', data);
+
+    } else {
+      //clearphoto();
+    }
+  }
+
+
+
+  window.addEventListener('load', startup, false);
+	})();
+	</script>
+	</body>
+
+</html>

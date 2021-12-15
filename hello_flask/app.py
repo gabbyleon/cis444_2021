@@ -154,5 +154,31 @@ def ss1():
 def s2():
     return render_template('backatu.html') 
 
+
+
+
+###########Final###########
+@app.route('/s9') #endpoint
+def s9():
+    return redirect('/static/test.html')
+
+@app.route('/insertpic' , methods=["POST","GET"]) #endpoint
+def insertpic():
+    cur = global_db_con.cursor()
+    cur.execute("INSERT into userspictures(userid, picurl)  values (121 ,'"+ request.form['url']+ "') ;")
+
+    global_db_con.commit()
+    return json_response(status="good")
+
+@app.route('/getpics' , methods=["POST","GET"]) #endpoint
+def getpics():
+    cur = global_db_con.cursor()
+    cur.execute("Select picurl from userspictures where userid = " +request.form['user']+ "  ;")
+    count = cur.fetchall()
+    data = {"link" : []};
+    for row in count:
+        data["link"].append(row)
+    return json.dumps(data)
+
 app.run(host='0.0.0.0', port=80)
 
